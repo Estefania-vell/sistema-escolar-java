@@ -22,7 +22,8 @@ public class GestionEscuelaDB {
             System.out.println("1. Dar de alta (Registrar alumno)");
             System.out.println("2. Mostrar lista de alumnos");
             System.out.println("3. Dar de baja (Eliminar alumno)");
-            System.out.println("4. Salir");
+            System.out.println("4. Editar Alumno");
+            System.out.println("5. Salir");
             System.out.print("Elige una opción: ");
             
             opcion = scanner.nextInt();
@@ -32,7 +33,8 @@ public class GestionEscuelaDB {
                 case 1: darDeAlta(); break;
                 case 2: mostrarLista(); break;
                 case 3: darDeBaja(); break;
-                case 4: System.out.println("Saliendo..."); break;
+                case 4: modificarAlumno(); break; 
+                case 5: System.out.println("Saliendo..."); break;
                 default: System.out.println("Opción inválida.");
             }
         }
@@ -108,4 +110,40 @@ public class GestionEscuelaDB {
             System.out.println("❌ Error al eliminar: " + e.getMessage());
         }
     }
+
+        // 4. ACTUALIZAR (Modificar)
+    public static void modificarAlumno() {
+        System.out.print("Ingresa el ID del alumno a modificar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Nuevo nombre: ");
+        String nuevoNombre = scanner.nextLine();
+        
+        System.out.print("Nueva edad: ");
+        int nuevaEdad = scanner.nextInt();
+        scanner.nextLine();
+
+        String sql = "UPDATE alumnos SET nombre = ?, edad = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, nuevoNombre);
+            pstmt.setInt(2, nuevaEdad);
+            pstmt.setInt(3, id);
+            
+            int filas = pstmt.executeUpdate();
+            if (filas > 0) {
+                System.out.println("✅ Alumno actualizado correctamente.");
+            } else {
+                System.out.println("❌ No se encontró un alumno con ese ID.");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("❌ Error al actualizar: " + e.getMessage());
+        }
+    }
+
+    
 }
