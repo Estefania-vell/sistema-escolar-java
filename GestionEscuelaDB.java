@@ -11,7 +11,7 @@ public class GestionEscuelaDB {
     // Datos de conexión a PostgreSQL
     static String url = "jdbc:postgresql://localhost:5432/escuela";
     static String user = "postgres";
-    static String password = "55826P4M1.A"; // CAMBIA ESTO si pusiste otra contraseña
+    static String password = "tu_contraseña_real"; // CAMBIA ESTO si pusiste otra contraseña
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
